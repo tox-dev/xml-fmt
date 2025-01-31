@@ -1,0 +1,10 @@
+- id: xml-fmt
+  name: xml-fmt
+  description: ""
+  entry: xml-fmt
+  language: python
+  types: ["xsd", "xml"]
+  args: []
+  require_serial: false
+  additional_dependencies: []
+  minimum_pre_commit_version: "0"
