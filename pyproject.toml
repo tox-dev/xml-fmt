@@ -121,7 +121,7 @@ max_supported_python = "3.13"
 [tool.pytest.ini_options]
 filterwarnings = [ "error" ]
 verbosity_assertions = 2
-ini_options.testpaths = [
+testpaths = [
   "tests",
 ]
 
