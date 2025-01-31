@@ -15,5 +15,5 @@ Add it to your `.pre-commit-config.yaml`:
 - repo: https://github.com/tox-dev/xml-fmt
   rev: "" # Use the sha / tag you want to point at
   hooks:
-    - id: pyproject-fmt
+    - id: xml-fmt
 ```
