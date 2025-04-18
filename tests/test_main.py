@@ -128,3 +128,17 @@ def test_xml_path_no_write(capsys: pytest.CaptureFixture[str], min_xml: Path) ->
     out, err = capsys.readouterr()
     assert "\nxml-fmt: error: argument inputs: cannot write path\n" in err
     assert not out
+
+
+def test_xml_format_add_newline(capsys: pytest.CaptureFixture[str], tmp_path: Path, min_xml_str: str) -> None:
+    xml = tmp_path / "name.xml"
+    xml.write_text(min_xml_str)
+
+    exit_code = run([str(xml), "--no-print-diff", "--add-eof-newline"])
+
+    assert xml.read_text() == min_xml_str + "\n"
+    assert exit_code == 1
+
+    out, err = capsys.readouterr()
+    assert not err
+    assert out.splitlines() == []
