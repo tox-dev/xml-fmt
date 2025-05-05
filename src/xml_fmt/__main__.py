@@ -25,6 +25,7 @@ class Options(Namespace):
 
     indent: str
     expand_empty_elements: bool
+    add_eof_newline: bool
 
 
 def run(args: Sequence[str] | None = None) -> int:
@@ -75,6 +76,12 @@ def _build_cli() -> ArgumentParser:
         "--expand-empty-elements",
         action="store_true",
         help="controls if empty XML elements should be collapsed into a self closing element or expanded",
+    )
+    format_group.add_argument(
+        "-N",
+        "--add-eof-newline",
+        action="store_true",
+        help="controls if a trailing newline is appended to the output",
     )
 
     msg = "XML (XSD) file(s) to format, use '-' to read from stdin"
@@ -133,11 +140,14 @@ def _handle_one(filename: Path | None, opts: Options) -> bool:
 def _format(raw: str, opts: Options) -> str:
     element = XML(raw)
     indent(element, opts.indent)
-    return tostring(
-        element,
-        encoding="unicode",
-        xml_declaration=True,
-        short_empty_elements=not opts.expand_empty_elements,
+    return (
+        tostring(
+            element,
+            encoding="unicode",
+            xml_declaration=True,
+            short_empty_elements=not opts.expand_empty_elements,
+        )
+        + "\n" * opts.add_eof_newline
     )
 
 
