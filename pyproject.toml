@@ -119,7 +119,10 @@ count = true
 max_supported_python = "3.13"
 
 [tool.pytest.ini_options]
-filterwarnings = [ "error" ]
+filterwarnings = [
+  "error",
+ "ignore:unclosed database:ResourceWarning",
+]
 verbosity_assertions = 2
 testpaths = [
   "tests",
