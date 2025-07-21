@@ -59,7 +59,7 @@ def test_xml_format_already_good(
     exit_code = run([str(min_xml)])
     assert exit_code == 0
 
-    assert min_xml.read_text() == min_xml_str
+    assert min_xml.read_text(encoding="utf-8") == min_xml_str
 
     out, err = capsys.readouterr()
     assert not err
