@@ -118,13 +118,13 @@ count = true
 [tool.pyproject-fmt]
 max_supported_python = "3.13"
 
-[tool.pytest.ini_options]
-filterwarnings = [
+[tool.pytest]
+ini_options.filterwarnings = [
   "error",
   "ignore:unclosed database:ResourceWarning",
 ]
-verbosity_assertions = 2
-testpaths = [
+ini_options.verbosity_assertions = 2
+ini_options.testpaths = [
   "tests",
 ]
 
