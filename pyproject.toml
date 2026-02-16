@@ -34,8 +34,8 @@ dynamic = [
 ]
 urls."Bug Tracker" = "https://github.com/tox-dev/xml-fmt/issues"
 urls."Changelog" = "https://github.com/tox-dev/xml-fmt/releases"
-urls.Documentation = "https://github.com/tox-dev/xml-fmt/"
 urls."Source Code" = "https://github.com/tox-dev/xml-fmt"
+urls.Documentation = "https://github.com/tox-dev/xml-fmt/"
 scripts.xml-fmt = "xml_fmt.__main__:run"
 
 [dependency-groups]
@@ -129,8 +129,10 @@ ini_options.testpaths = [
 ]
 
 [tool.coverage]
-html.show_contexts = true
-html.skip_covered = false
+run.parallel = true
+run.plugins = [
+  "covdefaults",
+]
 paths.source = [
   "src",
   ".tox/*/.venv/lib/*/site-packages",
@@ -141,10 +143,8 @@ paths.source = [
   "**\\src",
 ]
 report.fail_under = 63
-run.parallel = true
-run.plugins = [
-  "covdefaults",
-]
+html.show_contexts = true
+html.skip_covered = false
 
 [tool.mypy]
 show_error_codes = true
