@@ -24,7 +24,7 @@ commands = [
     "-m",
     "pytest",
     "{tty:--color=yes}",
-    { replace = "posargs", extend = true, default = [
+    { replace = "posargs", default = [
       "--cov",
       "{env_site_packages_dir}{/}xml_fmt",
       "--cov",
@@ -41,7 +41,7 @@ commands = [
       "--junitxml",
       "{work_dir}{/}junit.{env_name}.xml",
       "tests",
-    ] },
+    ], extend = true },
   ],
 ]
 
