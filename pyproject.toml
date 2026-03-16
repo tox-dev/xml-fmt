@@ -33,8 +33,8 @@ dynamic = [
   "version",
 ]
 urls."Bug Tracker" = "https://github.com/tox-dev/xml-fmt/issues"
-urls."Changelog" = "https://github.com/tox-dev/xml-fmt/releases"
 urls."Source Code" = "https://github.com/tox-dev/xml-fmt"
+urls.Changelog = "https://github.com/tox-dev/xml-fmt/releases"
 urls.Documentation = "https://github.com/tox-dev/xml-fmt/"
 scripts.xml-fmt = "xml_fmt.__main__:run"
 
