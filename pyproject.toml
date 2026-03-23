@@ -118,6 +118,10 @@ count = true
 [tool.pyproject-fmt]
 max_supported_python = "3.13"
 
+[tool.mypy]
+show_error_codes = true
+strict = true
+
 [tool.pytest]
 ini_options.filterwarnings = [
   "error",
@@ -145,7 +149,3 @@ paths.source = [
 report.fail_under = 63
 html.show_contexts = true
 html.skip_covered = false
-
-[tool.mypy]
-show_error_codes = true
-strict = true
