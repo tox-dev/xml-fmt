@@ -63,6 +63,7 @@ pkg-meta = [
 ]
 
 [tool.hatch]
+version.source = "vcs"
 build.dev-mode-dirs = [
   "src",
 ]
@@ -73,7 +74,6 @@ build.targets.sdist.include = [
 ]
 build.targets.wheel.only-include = [ "src" ]
 build.targets.wheel.sources = [ "src" ]
-version.source = "vcs"
 
 [tool.ruff]
 target-version = "py39"
@@ -119,18 +119,18 @@ count = true
 max_supported_python = "3.13"
 
 [tool.mypy]
-show_error_codes = true
 strict = true
+show_error_codes = true
 
 [tool.pytest]
+ini_options.testpaths = [
+  "tests",
+]
 ini_options.filterwarnings = [
   "error",
   "ignore:unclosed database:ResourceWarning",
 ]
 ini_options.verbosity_assertions = 2
-ini_options.testpaths = [
-  "tests",
-]
 
 [tool.coverage]
 run.parallel = true
