@@ -50,7 +50,7 @@ test = [
   "pytest-mock>=3.14",
 ]
 type = [
-  "mypy==1.14.1",
+  "ty>=0.0.59",
   { include-group = "test" },
 ]
 fix = [
@@ -118,9 +118,8 @@ count = true
 [tool.pyproject-fmt]
 max_supported_python = "3.13"
 
-[tool.mypy]
-strict = true
-show_error_codes = true
+[tool.ty]
+environment.python-version = "3.14"
 
 [tool.pytest]
 ini_options.testpaths = [
