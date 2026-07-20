@@ -9,7 +9,7 @@ from difflib import unified_diff
 from importlib.metadata import version
 from pathlib import Path
 from typing import TYPE_CHECKING
-from xml.etree.ElementTree import XML, indent, tostring  # noqa: S405
+from xml.etree.ElementTree import XML, indent, tostring  # ruff:ignore[suspicious-xml-etree-import]
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
@@ -33,7 +33,7 @@ def run(args: Sequence[str] | None = None) -> int:
 
     :param args: command line arguments, by default use sys.argv[1:]
     :return: exit code - 0 means already formatted correctly, otherwise 1
-    """  # noqa: DOC201
+    """  # ruff:ignore[docstring-missing-returns]
     parser = _build_cli()
     opts = Options()
     parser.parse_args(args=args, namespace=opts)
@@ -107,7 +107,7 @@ def _handle_one(filename: Path | None, opts: Options) -> bool:
 
     changed = before != formatted
     if filename is None or opts.stdout:  # when reading from stdin or writing to stdout, print new format
-        print(formatted, end="")  # noqa: T201
+        print(formatted, end="")  # ruff:ignore[print]
         return changed
 
     if before != formatted and not opts.check:
@@ -124,9 +124,9 @@ def _handle_one(filename: Path | None, opts: Options) -> bool:
 
     if diff:
         diff = _color_diff(diff)
-        print("\n".join(diff))  # print diff on change  # noqa: T201
+        print("\n".join(diff))  # print diff on change  # ruff:ignore[print]
     else:
-        print(f"no change for {name}")  # noqa: T201
+        print(f"no change for {name}")  # ruff:ignore[print]
     return changed
 
 
