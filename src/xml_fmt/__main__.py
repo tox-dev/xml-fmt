@@ -102,7 +102,7 @@ def _path_creator(argument: str) -> Path | None:
 
 
 def _handle_one(filename: Path | None, opts: Options) -> bool:
-    before = sys.stdin.read() if filename is None else filename.read_text(encoding="utf-8")
+    before: str = sys.stdin.read() if filename is None else filename.read_text(encoding="utf-8")
     formatted = _format(before, opts)
 
     changed = before != formatted
