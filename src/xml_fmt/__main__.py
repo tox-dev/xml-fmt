@@ -8,7 +8,7 @@ from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser, ArgumentType
 from difflib import unified_diff
 from importlib.metadata import version
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from xml.etree.ElementTree import XML, indent, tostring  # ruff:ignore[suspicious-xml-etree-import]
 
 if TYPE_CHECKING:
@@ -102,7 +102,7 @@ def _path_creator(argument: str) -> Path | None:
 
 
 def _handle_one(filename: Path | None, opts: Options) -> bool:
-    before: str = sys.stdin.read() if filename is None else filename.read_text(encoding="utf-8")
+    before: str = cast("str", sys.stdin.read()) if filename is None else filename.read_text(encoding="utf-8")
     formatted = _format(before, opts)
 
     changed = before != formatted
@@ -118,13 +118,9 @@ def _handle_one(filename: Path | None, opts: Options) -> bool:
         name = str(filename.relative_to(Path.cwd()))
     except ValueError:
         name = str(filename)
-    diff: Iterable[str] = []
     if changed:
         diff = unified_diff(before.splitlines(), formatted.splitlines(), fromfile=name, tofile=name)
-
-    if diff:
-        diff = _color_diff(diff)
-        print("\n".join(diff))  # print diff on change  # ruff:ignore[print]
+        print("\n".join(_color_diff(diff)))  # print diff on change  # ruff:ignore[print]
     else:
         print(f"no change for {name}")  # ruff:ignore[print]
     return changed
