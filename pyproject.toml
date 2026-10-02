@@ -28,6 +28,8 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
 ]
 dynamic = [
   "version",
@@ -116,7 +118,7 @@ builtin = "clear,usage,en-GB_to_en-US"
 count = true
 
 [tool.pyproject-fmt]
-max_supported_python = "3.13"
+max_supported_python = "3.15"
 
 [tool.ty]
 environment.python-version = "3.14"
@@ -136,6 +138,10 @@ run.parallel = true
 run.plugins = [
   "covdefaults",
 ]
+# coverage defaults to the sysmon core on 3.14+, which cannot record the per-test dynamic
+# contexts pytest-cov sets via --cov-context (7.15.2 dropped them silently, 7.15.3 warns,
+# and filterwarnings=error turns that into a failure); ctrace supports them
+run.core = "ctrace"
 paths.source = [
   "src",
   ".tox/*/.venv/lib/*/site-packages",
