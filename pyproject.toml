@@ -1,7 +1,7 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
-  "hatch-vcs>=0.4",
+  "hatch-vcs>=0.5",
   "hatchling>=1.27",
 ]
 
@@ -47,21 +47,21 @@ dev = [
 ]
 test = [
   "covdefaults>=2.3",
-  "pytest>=8.3.4",
-  "pytest-cov>=6",
-  "pytest-mock>=3.14",
+  "pytest>=8.4.2",
+  "pytest-cov>=7.1",
+  "pytest-mock>=3.15.1",
 ]
 type = [
-  "ty>=0.0.59",
+  "ty>=0.0.84",
   { include-group = "test" },
 ]
 fix = [
-  "pre-commit-uv>=4.1.4",
+  "pre-commit-uv>=4.1.5",
 ]
 pkg-meta = [
   "check-wheel-contents>=0.6.1",
-  "twine>=6.1",
-  "uv>=0.5.26",
+  "twine>=6.2",
+  "uv>=0.12.22",
 ]
 
 [tool.hatch]
