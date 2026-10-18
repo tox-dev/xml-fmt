@@ -1,5 +1,8 @@
 # xml-fmt
 
+See the [changelog](CHANGELOG.md) for released changes. Pull requests need a `changelog.d/<PR>.<type>.md` fragment; use
+the `skip news` label for changes that do not need release notes.
+
 [![PyPI](https://img.shields.io/pypi/v/xml-fmt?style=flat-square)](https://pypi.org/project/xml-fmt)
 [![PyPI - Implementation](https://img.shields.io/pypi/implementation/xml-fmt?style=flat-square)](https://pypi.org/project/xml-fmt)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/xml-fmt?style=flat-square)](https://pypi.org/project/xml-fmt)
@@ -12,8 +15,8 @@
 Add it to your `.pre-commit-config.yaml`:
 
 ```yaml
-- repo: https://github.com/tox-dev/xml-fmt
-  rev: "" # Use the sha / tag you want to point at
-  hooks:
-    - id: xml-fmt
+  - repo: https://github.com/tox-dev/xml-fmt
+    rev: '' # Use the sha / tag you want to point at
+    hooks:
+      - id: xml-fmt
 ```
