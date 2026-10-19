@@ -2,22 +2,70 @@
 
 <!-- towncrier release notes start -->
 
+<a name="release-1-2-0"></a>
+
 ## 1.2.0 (2026-10-10)
 
-- Require Python 3.11 and use Python 3.15 by default.
+<a name="release-1-2-0-added"></a>
+
+### Added
+
+- Require Python 3.11 ([#120](https://github.com/tox-dev/xml-fmt/pull/120)) by
+  [@gaborbernat](https://github.com/gaborbernat).
+
+<a name="release-1-2-0-changes"></a>
+
+### Changes
+
+- Use Python 3.15 by default ([#120](https://github.com/tox-dev/xml-fmt/pull/120)) by
+  [@gaborbernat](https://github.com/gaborbernat).
+
+<a name="release-1-1-0"></a>
 
 ## 1.1.0 (2026-10-01)
 
-- Add Python 3.14 and 3.15 support ([#117](https://github.com/tox-dev/xml-fmt/pull/117)).
+<a name="release-1-1-0-added"></a>
+
+### Added
+
+- Add Python 3.14 and 3.15 support ([#117](https://github.com/tox-dev/xml-fmt/pull/117)) by
+  [@gaborbernat](https://github.com/gaborbernat).
+
+<a name="release-1-0-2"></a>
 
 ## 1.0.2 (2026-07-07)
 
-- Fix the pre-commit hook file matching and tighten workflow permissions.
+<a name="release-1-0-2-fixed"></a>
+
+### Fixed
+
+- Fix the pre-commit hook file matching ([#9](https://github.com/tox-dev/xml-fmt/pull/9)) by
+  [@jevinskie](https://github.com/jevinskie).
+
+<a name="release-1-0-2-other-changes"></a>
+
+### Other changes
+
+- Tighten workflow permissions ([#56](https://github.com/tox-dev/xml-fmt/pull/56)) by
+  [@gaborbernat](https://github.com/gaborbernat).
+
+<a name="release-1-0-1"></a>
 
 ## 1.0.1 (2025-01-31)
 
-- Update the README.
+<a name="release-1-0-1-documentation"></a>
+
+### Documentation
+
+- Update the README by [@gaborbernat](https://github.com/gaborbernat).
+
+<a name="release-1-0-0"></a>
 
 ## 1.0.0 (2025-01-31)
 
-- Publish the first version of the XML formatter.
+<a name="release-1-0-0-added"></a>
+
+### Added
+
+- Publish the first version of the XML formatter ([#1](https://github.com/tox-dev/xml-fmt/pull/1)) by
+  [@gaborbernat](https://github.com/gaborbernat).
