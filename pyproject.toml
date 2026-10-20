@@ -8,18 +8,20 @@ requires = [
 
 [project]
 name = "xml-fmt"
-description = "Run pre-commit with uv"
+import-names = [ "xml_fmt" ]
+description = "Format XML files consistently"
 keywords = [
-  "format",
-  "XML",
+  "formatter",
+  "xml",
 ]
-license.file = "LICENSE.txt"
+license = "MIT"
+license-files = [ "LICENSE.txt" ]
 authors = [
   { name = "Bernat Gabor", email = "gaborjbernat@gmail.com" },
 ]
 requires-python = ">=3.11"
 classifiers = [
-  "License :: OSI Approved :: MIT License",
+  "Intended Audience :: Developers",
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3 :: Only",
@@ -28,6 +30,7 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: 3.15",
+  "Topic :: Text Processing :: Markup :: XML",
 ]
 dynamic = [
   "readme",
@@ -35,7 +38,7 @@ dynamic = [
 ]
 urls."Bug Tracker" = "https://github.com/tox-dev/xml-fmt/issues"
 urls."Source Code" = "https://github.com/tox-dev/xml-fmt"
-urls.Changelog = "https://github.com/tox-dev/xml-fmt/releases"
+urls.Changelog = "https://github.com/tox-dev/xml-fmt/blob/main/CHANGELOG.md"
 urls.Documentation = "https://github.com/tox-dev/xml-fmt/"
 scripts.xml-fmt = "xml_fmt.__main__:run"
 
