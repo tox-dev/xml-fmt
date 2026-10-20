@@ -34,13 +34,11 @@ repos:
     rev: v1.30.1
     hooks:
       - id: zizmor
-  - repo: local
+  - repo: https://github.com/hukkin/mdformat
+    rev: 1.0.0
     hooks:
       - id: mdformat
-        name: mdformat
-        entry: mdformat --wrap 120
-        language: python
-        types: [markdown]
+        args: ["--wrap", "120"]
         files: ^(CHANGELOG\.md|CONTRIBUTING\.md|README\.md|changelog\.d/.*\.md)$
         additional_dependencies:
           - mdformat-gfm>=1
