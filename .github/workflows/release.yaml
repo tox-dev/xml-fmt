@@ -20,6 +20,7 @@ jobs:
   release:
     needs:
       - build
+      - github_notes
     runs-on: ubuntu-26.04
     environment:
       name: release
