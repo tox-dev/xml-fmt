@@ -1,6 +1,7 @@
 # Contributing
 
-Run the tests and type checker with `tox -e 3.15,type`. Run `prek run --all-files` before pushing a pull request.
+Run the tests, type checker, package checks, and formatting hooks with `tox -e 3.15,type,pkg_meta,fix` before opening a
+pull request. The `pkg_meta` task checks the wheel and sdist; `fix` runs the configured hooks.
 
 ## Release notes
 
@@ -26,3 +27,11 @@ the label when their pull request has no fragment.
 
 The release workflow credits the pull request author. If several people authored the change, add their linked GitHub
 handles in one `by` phrase in the fragment. Omit bots and reviewers.
+
+## Make a release
+
+Run **Prepare release** on `main`. Its default `auto` option chooses a major version for a `breaking` fragment, a minor
+version for a `feature` fragment, and a patch version for other user-facing categories. The workflow validates the
+assembled changelog with `prek`, then uses the repository App to push the release commit and tag. The tag workflow
+publishes the checked package to PyPI through trusted publishing and creates the GitHub Release from the tagged
+changelog.
