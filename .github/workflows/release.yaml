@@ -6,7 +6,7 @@ permissions:
   contents: read
 jobs:
   build:
-    uses: tox-dev/github-workflows/.github/workflows/validate-python-release.yaml@8db87d4730353b61630d66cbc592d6bed0c85d2b
+    uses: tox-dev/github-workflows/.github/workflows/validate-python-release.yaml@9a4e76e2f4901856f2784f6c0efc89278c518b1f
     permissions:
       contents: read
       pull-requests: read
@@ -25,7 +25,7 @@ jobs:
         with:
           name: github-release-notes
           path: ${{ runner.temp }}/release-notes
-      - uses: tox-dev/github-workflows/publish-github-release@8db87d4730353b61630d66cbc592d6bed0c85d2b
+      - uses: tox-dev/github-workflows/publish-github-release@9a4e76e2f4901856f2784f6c0efc89278c518b1f
         with:
           repository: ${{ github.repository }}
           tag: ${{ github.ref_name }}
@@ -55,7 +55,7 @@ jobs:
         with:
           name: python-package-distributions
           path: dist/
-      - uses: tox-dev/github-workflows/reconcile-pypi-artifacts@8db87d4730353b61630d66cbc592d6bed0c85d2b
+      - uses: tox-dev/github-workflows/reconcile-pypi-artifacts@9a4e76e2f4901856f2784f6c0efc89278c518b1f
         id: stage
         with:
           project: xml-fmt
@@ -87,7 +87,7 @@ jobs:
         with:
           name: pypi-missing-manifest
           path: ${{ runner.temp }}/pypi-manifest
-      - uses: tox-dev/github-workflows/select-pypi-artifacts@8db87d4730353b61630d66cbc592d6bed0c85d2b
+      - uses: tox-dev/github-workflows/select-pypi-artifacts@9a4e76e2f4901856f2784f6c0efc89278c518b1f
         with:
           dist: dist
           manifest: ${{ runner.temp }}/pypi-manifest/pypi-missing-names.txt
@@ -119,7 +119,7 @@ jobs:
         with:
           name: python-package-distributions
           path: dist/
-      - uses: tox-dev/github-workflows/reconcile-pypi-artifacts@8db87d4730353b61630d66cbc592d6bed0c85d2b
+      - uses: tox-dev/github-workflows/reconcile-pypi-artifacts@9a4e76e2f4901856f2784f6c0efc89278c518b1f
         with:
           project: xml-fmt
           version: ${{ github.ref_name }}
@@ -207,7 +207,7 @@ jobs:
         with:
           name: generated-release-notes
           path: ${{ runner.temp }}/generated-notes
-      - uses: tox-dev/github-workflows/render-release-notes@8db87d4730353b61630d66cbc592d6bed0c85d2b
+      - uses: tox-dev/github-workflows/render-release-notes@9a4e76e2f4901856f2784f6c0efc89278c518b1f
         with:
           tag: ${{ github.ref_name }}
           changelog: CHANGELOG.md
@@ -230,7 +230,7 @@ jobs:
         with:
           name: github-release-notes
           path: ${{ runner.temp }}/release-notes
-      - uses: tox-dev/github-workflows/publish-github-release@8db87d4730353b61630d66cbc592d6bed0c85d2b
+      - uses: tox-dev/github-workflows/publish-github-release@9a4e76e2f4901856f2784f6c0efc89278c518b1f
         with:
           repository: ${{ github.repository }}
           tag: ${{ github.ref_name }}
