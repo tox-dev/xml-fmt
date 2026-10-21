@@ -4,8 +4,6 @@ on:
     tags: ["*"]
 permissions:
   contents: read
-env:
-  dists-artifact-name: python-package-distributions
 jobs:
   build:
     uses: tox-dev/github-workflows/.github/workflows/validate-python-release.yaml@5e11f2254a4dcb7102747d312ad7db48a2e9b0cb
@@ -31,7 +29,7 @@ jobs:
       - name: Download all the distributions
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: ${{ env.dists-artifact-name }}
+          name: python-package-distributions
           path: dist/
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
@@ -72,22 +70,23 @@ jobs:
       contents: write
     steps:
       - name: Fetch contributor metadata
+        if: needs.previous_tag.outputs.tag != ''
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
           PREVIOUS: ${{ needs.previous_tag.outputs.tag }}
         run: |
-          set -euo pipefail
-          if [[ -n "$PREVIOUS" ]]; then
-            gh api -X POST "repos/${GITHUB_REPOSITORY}/releases/generate-notes" \
-              -f tag_name="$TAG" \
-              -f previous_tag_name="$PREVIOUS" \
-              --jq .body > "$RUNNER_TEMP/generated-notes.md"
-          else
-            gh api -X POST "repos/${GITHUB_REPOSITORY}/releases/generate-notes" \
-              -f tag_name="$TAG" \
-              --jq .body > "$RUNNER_TEMP/generated-notes.md"
-          fi
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/releases/generate-notes" \
+            -f tag_name="$TAG" -f previous_tag_name="$PREVIOUS" \
+            --jq .body >"$RUNNER_TEMP/generated-notes.md"
+      - name: Fetch first-release metadata
+        if: needs.previous_tag.outputs.tag == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/releases/generate-notes" \
+            -f tag_name="$TAG" --jq .body >"$RUNNER_TEMP/generated-notes.md"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: generated-release-notes
