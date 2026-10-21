@@ -88,9 +88,14 @@ build.dev-mode-dirs = [
   "src",
 ]
 build.targets.sdist.include = [
+  "/CHANGELOG.md",
+  "/CONTRIBUTING.md",
+  "/LICENSE.txt",
+  "/README.md",
+  "/pyproject.toml",
   "/src",
   "/tests",
-  "tox.ini",
+  "/tox.toml",
 ]
 build.targets.wheel.only-include = [ "src" ]
 build.targets.wheel.sources = [ "src" ]
