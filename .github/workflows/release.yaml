@@ -146,14 +146,14 @@ jobs:
         run: |
           uv venv --python 3.15 "$RUNNER_TEMP/release-tools"
           uv pip sync --preview-features pylock --python "$RUNNER_TEMP/release-tools/bin/python" --group release pylock.toml
-          echo "$RUNNER_TEMP/release-tools/bin" >> "$GITHUB_PATH"
+          echo "$RUNNER_TEMP/release-tools/bin" >>"$GITHUB_PATH"
       - name: Find previous tag
         id: previous
         env:
           TAG: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-          echo "tag=$(git tag --list | release-creator tags "$TAG" --previous)" >> "$GITHUB_OUTPUT"
+          echo "tag=$(git tag --list | release-creator tags "$TAG" --previous)" >>"$GITHUB_OUTPUT"
   contributor_metadata:
     needs: previous_tag
     runs-on: ubuntu-26.04
@@ -202,7 +202,7 @@ jobs:
         run: |
           uv venv --python 3.15 "$RUNNER_TEMP/release-tools"
           uv pip sync --preview-features pylock --python "$RUNNER_TEMP/release-tools/bin/python" --group release pylock.toml
-          echo "$RUNNER_TEMP/release-tools/bin" >> "$GITHUB_PATH"
+          echo "$RUNNER_TEMP/release-tools/bin" >>"$GITHUB_PATH"
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: generated-release-notes
