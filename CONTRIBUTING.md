@@ -26,6 +26,3 @@ the label when their pull request has no fragment.
 
 The release workflow credits the pull request author. If several people authored the change, add their linked GitHub
 handles in one `by` phrase in the fragment. Omit bots and reviewers.
-
-The historical changelog uses `Other changes` where the original release did not identify a user-facing category. New
-pull requests use a specific category or `skip news`.

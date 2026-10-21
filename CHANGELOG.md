@@ -4,8 +4,6 @@
 
 <a name="release-1-2-0"></a>
 
-<a name="release-1-2-0-changes"></a>
-
 ## 1.2.0 (2026-10-10)
 
 <a name="release-1-2-0-added"></a>
@@ -27,8 +25,6 @@
   [@gaborbernat](https://github.com/gaborbernat).
 
 <a name="release-1-0-2"></a>
-
-<a name="release-1-0-2-other-changes"></a>
 
 ## 1.0.2 (2026-07-07)
 
