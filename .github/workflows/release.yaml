@@ -6,14 +6,11 @@ permissions:
   contents: read
 jobs:
   build:
-    uses: tox-dev/github-workflows/.github/workflows/validate-python-release.yaml@9a4e76e2f4901856f2784f6c0efc89278c518b1f
+    uses: tox-dev/github-workflows/.github/workflows/validate-python-release.yaml@a32ce094895292b19eea422fc6500f1ef1ae8d5f
     permissions:
       contents: read
-      pull-requests: read
     with:
       changelog: CHANGELOG.md
-      fragments: changelog.d
-      format: markdown
       artifact-base-url: https://pypi.org/project/xml-fmt/
   stage-github-release:
     needs: [build, github_notes]
@@ -25,7 +22,7 @@ jobs:
         with:
           name: github-release-notes
           path: ${{ runner.temp }}/release-notes
-      - uses: tox-dev/github-workflows/publish-github-release@9a4e76e2f4901856f2784f6c0efc89278c518b1f
+      - uses: tox-dev/github-workflows/publish-github-release@a32ce094895292b19eea422fc6500f1ef1ae8d5f
         with:
           repository: ${{ github.repository }}
           tag: ${{ github.ref_name }}
@@ -55,7 +52,7 @@ jobs:
         with:
           name: python-package-distributions
           path: dist/
-      - uses: tox-dev/github-workflows/reconcile-pypi-artifacts@9a4e76e2f4901856f2784f6c0efc89278c518b1f
+      - uses: tox-dev/github-workflows/reconcile-pypi-artifacts@a32ce094895292b19eea422fc6500f1ef1ae8d5f
         id: stage
         with:
           project: xml-fmt
@@ -87,7 +84,7 @@ jobs:
         with:
           name: pypi-missing-manifest
           path: ${{ runner.temp }}/pypi-manifest
-      - uses: tox-dev/github-workflows/select-pypi-artifacts@9a4e76e2f4901856f2784f6c0efc89278c518b1f
+      - uses: tox-dev/github-workflows/select-pypi-artifacts@a32ce094895292b19eea422fc6500f1ef1ae8d5f
         with:
           dist: dist
           manifest: ${{ runner.temp }}/pypi-manifest/pypi-missing-names.txt
@@ -119,7 +116,7 @@ jobs:
         with:
           name: python-package-distributions
           path: dist/
-      - uses: tox-dev/github-workflows/reconcile-pypi-artifacts@9a4e76e2f4901856f2784f6c0efc89278c518b1f
+      - uses: tox-dev/github-workflows/reconcile-pypi-artifacts@a32ce094895292b19eea422fc6500f1ef1ae8d5f
         with:
           project: xml-fmt
           version: ${{ github.ref_name }}
@@ -207,7 +204,7 @@ jobs:
         with:
           name: generated-release-notes
           path: ${{ runner.temp }}/generated-notes
-      - uses: tox-dev/github-workflows/render-release-notes@9a4e76e2f4901856f2784f6c0efc89278c518b1f
+      - uses: tox-dev/github-workflows/render-release-notes@a32ce094895292b19eea422fc6500f1ef1ae8d5f
         with:
           tag: ${{ github.ref_name }}
           changelog: CHANGELOG.md
@@ -230,7 +227,7 @@ jobs:
         with:
           name: github-release-notes
           path: ${{ runner.temp }}/release-notes
-      - uses: tox-dev/github-workflows/publish-github-release@9a4e76e2f4901856f2784f6c0efc89278c518b1f
+      - uses: tox-dev/github-workflows/publish-github-release@a32ce094895292b19eea422fc6500f1ef1ae8d5f
         with:
           repository: ${{ github.repository }}
           tag: ${{ github.ref_name }}
