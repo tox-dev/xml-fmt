@@ -1,7 +1,7 @@
 # xml-fmt
 
-See the [changelog](CHANGELOG.md) for released changes. Pull requests need a `changelog.d/<PR>.<type>.md` fragment; use
-the `skip news` label for changes that do not need release notes.
+See the [changelog](CHANGELOG.md) for released changes and the [contributing guide](CONTRIBUTING.md) for release-note
+fragments and the `skip news` label.
 
 [![PyPI](https://img.shields.io/pypi/v/xml-fmt?style=flat-square)](https://pypi.org/project/xml-fmt)
 [![PyPI - Implementation](https://img.shields.io/pypi/implementation/xml-fmt?style=flat-square)](https://pypi.org/project/xml-fmt)
