@@ -2,6 +2,24 @@
 
 <!-- towncrier release notes start -->
 
+<a name="release-1-2-1"></a>
+
+## 1.2.1 (2026-10-27)
+
+<a name="release-1-2-1-fixed"></a>
+
+### Fixed
+
+- Fix repository links in the PyPI project description ([#127](https://github.com/tox-dev/xml-fmt/pull/127)) by
+  [@gaborbernat](https://github.com/gaborbernat).
+
+<a name="release-1-2-1-packaging"></a>
+
+### Packaging
+
+- Include the tox configuration in source distributions ([#127](https://github.com/tox-dev/xml-fmt/pull/127)) by
+  [@gaborbernat](https://github.com/gaborbernat).
+
 <a name="release-1-2-0"></a>
 
 ## 1.2.0 (2026-10-10)
