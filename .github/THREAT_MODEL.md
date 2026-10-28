@@ -65,8 +65,8 @@ An attacker who controls any of these already has what xml-fmt could give them:
 ## Release chain
 
 Releases run on the shared [tox-dev/github-workflows](https://github.com/tox-dev/github-workflows) pipeline. A release
-App, not a person, pushes the release commit and tag; the build installs its tools hash-checked from `pylock.toml` with
-a seven-day upload cooldown; PyPI receives the files through
+App, not a person, pushes the release commit and tag; the build installs its tools from a hash-checked `pylock.toml`
+resolved with a seven-day upload cooldown by default; PyPI receives the files through
 [trusted publishing](https://docs.pypi.org/trusted-publishers/) with attestations, and the GitHub Release is immutable.
 Every workflow pins third-party actions to a commit SHA.
 
@@ -78,6 +78,12 @@ Every workflow pins third-party actions to a commit SHA.
 | A billion-laughs file exhausts memory on current Python            | Vulnerability | Small-input blowup.                            |
 | The same file exhausts memory only with Expat older than 2.4.1     | Not ours      | Report it to the platform shipping that Expat. |
 | Formatting drops a processing instruction                          | Bug           | Changes content; fix it in the open.           |
+
+## Severity
+
+- **High:** formatting an untrusted XML file executes code, reads or writes another file, or makes a network request.
+- **Medium:** a small input hangs the formatter or exhausts memory.
+- **Low:** an uncaught exception, panic or crash on malformed input instead of a clean error.
 
 ## Accepted risks
 
