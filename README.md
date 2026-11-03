@@ -9,6 +9,8 @@ fragments and the `skip news` label.
 [![Downloads](https://static.pepy.tech/badge/xml-fmt/month)](https://pepy.tech/project/xml-fmt)
 [![PyPI - License](https://img.shields.io/pypi/l/xml-fmt?style=flat-square)](https://opensource.org/licenses/MIT)
 [![check](https://github.com/tox-dev/xml-fmt/actions/workflows/check.yaml/badge.svg)](https://github.com/tox-dev/xml-fmt/actions/workflows/check.yaml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/tox-dev/xml-fmt/badge)](https://scorecard.dev/viewer/?uri=github.com/tox-dev/xml-fmt)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/16265/badge)](https://www.bestpractices.dev/projects/16265)
 
 ### Using `xml-fmt` with pre-commit
 
