@@ -35,3 +35,7 @@ version for a `feature` fragment, and a patch version for other user-facing cate
 assembled changelog with `prek`, then uses the repository App to push the release commit and tag. The tag workflow
 publishes the checked package to PyPI through trusted publishing and creates the GitHub Release from the tagged
 changelog.
+
+## Tests
+
+Add a test for every new feature and bug fix. A change without a test needs a reason in the pull request description.
