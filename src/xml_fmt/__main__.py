@@ -26,10 +26,6 @@ class _Options(Namespace):
 
 
 def run(args: Sequence[str] | None = None) -> int:
-    # Run the formatter.
-    #
-    # :param args: command line arguments, by default use sys.argv[1:]
-    # :return: exit code - 0 means already formatted correctly, otherwise 1
     parser = _build_cli()
     opts = _Options()
     parser.parse_args(args=args, namespace=opts)
