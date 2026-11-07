@@ -9,7 +9,7 @@ from difflib import unified_diff
 from importlib.metadata import version
 from pathlib import Path
 from typing import TYPE_CHECKING, cast
-from xml.etree.ElementTree import XML, indent, tostring  # ruff:ignore[suspicious-xml-etree-import]
+from xml.etree.ElementTree import XML, indent, tostring  # ruff:ignore[suspicious-xml-etree-import] input is the user's own XML file, not untrusted data
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
@@ -103,7 +103,7 @@ def _handle_one(filename: Path | None, opts: _Options) -> bool:
 
     changed = before != formatted
     if filename is None or opts.stdout:  # when reading from stdin or writing to stdout, print new format
-        print(formatted, end="")  # ruff:ignore[print]
+        print(formatted, end="")  # ruff:ignore[print] the formatted XML is the command output
         return changed
 
     if before != formatted and not opts.check:
@@ -116,9 +116,9 @@ def _handle_one(filename: Path | None, opts: _Options) -> bool:
         name = str(filename)
     if changed:
         diff = unified_diff(before.splitlines(), formatted.splitlines(), fromfile=name, tofile=name)
-        print("\n".join(_color_diff(diff)))  # print diff on change  # ruff:ignore[print]
+        print("\n".join(_color_diff(diff)))  # print diff on change  # ruff:ignore[print] the diff is the command output
     else:
-        print(f"no change for {name}")  # ruff:ignore[print]
+        print(f"no change for {name}")  # ruff:ignore[print] the status is the command output
     return changed
 
 
