@@ -9,15 +9,13 @@ from difflib import unified_diff
 from importlib.metadata import version
 from pathlib import Path
 from typing import TYPE_CHECKING, cast
-from xml.etree.ElementTree import XML, indent, tostring  # ruff:ignore[suspicious-xml-etree-import]
+from xml.etree.ElementTree import XML, indent, tostring  # ruff:ignore[suspicious-xml-etree-import] input is the user's own XML file, not untrusted data
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
 
 
-class Options(Namespace):
-    """Options for pyproject-fmt tool."""
-
+class _Options(Namespace):
     inputs: list[Path | None]
     stdout: bool
     check: bool
@@ -28,14 +26,8 @@ class Options(Namespace):
 
 
 def run(args: Sequence[str] | None = None) -> int:
-    """
-    Run the formatter.
-
-    :param args: command line arguments, by default use sys.argv[1:]
-    :return: exit code - 0 means already formatted correctly, otherwise 1
-    """  # ruff:ignore[docstring-missing-returns]
     parser = _build_cli()
-    opts = Options()
+    opts = _Options()
     parser.parse_args(args=args, namespace=opts)
     results = [_handle_one(filename, opts) for filename in opts.inputs]
     return 1 if any(results) else 0  # exit with non success on change
@@ -101,13 +93,13 @@ def _path_creator(argument: str) -> Path | None:
     return path
 
 
-def _handle_one(filename: Path | None, opts: Options) -> bool:
+def _handle_one(filename: Path | None, opts: _Options) -> bool:
     before: str = cast("str", sys.stdin.read()) if filename is None else filename.read_text(encoding="utf-8")
     formatted = _format(before, opts)
 
     changed = before != formatted
     if filename is None or opts.stdout:  # when reading from stdin or writing to stdout, print new format
-        print(formatted, end="")  # ruff:ignore[print]
+        print(formatted, end="")  # ruff:ignore[print] the formatted XML is the command output
         return changed
 
     if before != formatted and not opts.check:
@@ -120,13 +112,13 @@ def _handle_one(filename: Path | None, opts: Options) -> bool:
         name = str(filename)
     if changed:
         diff = unified_diff(before.splitlines(), formatted.splitlines(), fromfile=name, tofile=name)
-        print("\n".join(_color_diff(diff)))  # print diff on change  # ruff:ignore[print]
+        print("\n".join(_color_diff(diff)))  # print diff on change  # ruff:ignore[print] the diff is the command output
     else:
-        print(f"no change for {name}")  # ruff:ignore[print]
+        print(f"no change for {name}")  # ruff:ignore[print] the status is the command output
     return changed
 
 
-def _format(raw: str, opts: Options) -> str:
+def _format(raw: str, opts: _Options) -> str:
     element = XML(raw)
     indent(element, opts.indent)
     return tostring(
@@ -137,19 +129,22 @@ def _format(raw: str, opts: Options) -> str:
     )
 
 
-GREEN = "\u001b[32m"
-RED = "\u001b[31m"
-RESET = "\u001b[0m"
-
-
 def _color_diff(diff: Iterable[str]) -> Iterable[str]:
+    green: str = "\u001b[32m"
+    red: str = "\u001b[31m"
+    reset: str = "\u001b[0m"
     for line in diff:
         if line.startswith("+"):
-            yield f"{GREEN}{line}{RESET}"
+            yield f"{green}{line}{reset}"
         elif line.startswith("-"):
-            yield f"{RED}{line}{RESET}"
+            yield f"{red}{line}{reset}"
         else:
             yield line
+
+
+__all__ = [
+    "run",
+]
 
 
 if __name__ == "__main__":
