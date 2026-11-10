@@ -132,10 +132,9 @@ lint.select = [
 ]
 lint.ignore = [
   "CPY",                                       # No copyright statements
-  "docstring-missing-exception",               # not working with Sphinx
+  "docstring-missing-exception",               # rst-missing-raises (simplint SMP924) reads reST fields instead
   "docstring-missing-returns",                 # rst-returns (simplint SMP923) reads reST fields instead
   "docstring-missing-yields",                  # rst-returns (simplint SMP923) reads reST fields instead
-  "hardcoded-bind-all-interfaces",             # Possible binding to all interfaces
   "incorrect-blank-line-before-class",         # `one-blank-line-before-class` (D203) and `no-blank-line-before-class` (D211) are incompatible.
   "missing-trailing-comma",                    # Conflict with formatter
   "multi-line-summary-first-line",             # `multi-line-summary-first-line` (D212) and `multi-line-summary-second-line` (D213) are incompatible.
@@ -148,15 +147,9 @@ lint.ignore = [
   "undocumented-public-nested-class",          # undocumented-public-api (simplint SMP903) covers the public API instead
 ]
 lint.per-file-ignores."tests/**/*.py" = [
-  "assert",                        # asserts allowed in tests.
-  "D",                             # don't care about documentation in tests
-  "FBT",                           # don't care about booleans as positional arguments in tests
-  "implicit-namespace-package",    # no implicit namespace
-  "import-private-name",           # private import
-  "magic-value-comparison",        # Magic value used in comparison, consider replacing with a constant variable.
-  "S",                             # `subprocess` call: check for execution of untrusted input
-  "too-many-arguments",            # any number of arguments in tests
-  "too-many-positional-arguments", # any number of arguments in tests
+  "assert",                     # pytest uses assertions for behavior checks.
+  "implicit-namespace-package", # tests is not an importable package.
+  "undocumented-public-module", # test modules do not have public API documentation.
 ]
 lint.isort = { known-first-party = [
   "xml_fmt",
