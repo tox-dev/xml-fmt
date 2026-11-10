@@ -5,6 +5,7 @@ from io import StringIO
 from typing import TYPE_CHECKING
 
 import pytest
+from defusedxml.common import EntitiesForbidden
 
 from xml_fmt.__main__ import run
 
@@ -75,6 +76,25 @@ def test_xml_stdin(capsys: pytest.CaptureFixture[str], mocker: MockerFixture, mi
     out, err = capsys.readouterr()
     assert not err
     assert out == min_xml_str
+
+
+@pytest.mark.parametrize(
+    "declaration",
+    [
+        '<!ENTITY secret SYSTEM "file:///etc/passwd">',
+        '<!ENTITY secret "expanded">',
+    ],
+    ids=["external", "internal"],
+)
+def test_xml_rejects_entities(tmp_path: Path, declaration: str) -> None:
+    xml = tmp_path / "name.xml"
+    raw = f"<!DOCTYPE root [{declaration}]><root>&secret;</root>"
+    xml.write_text(raw)
+
+    with pytest.raises(EntitiesForbidden):
+        run([str(xml)])
+
+    assert xml.read_text() == raw
 
 
 def test_xml_path_missing(capsys: pytest.CaptureFixture[str], tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

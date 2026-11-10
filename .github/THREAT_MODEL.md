@@ -6,14 +6,13 @@ SECURITY.md wins and we fix this file.
 
 ## How xml-fmt works
 
-xml-fmt reads each XML file named on the command line or standard input, parses it with the standard library's
-`xml.etree.ElementTree` on Expat, and writes the formatted text back to the same path, to standard output, or reports a
-diff with `--check`. It runs no code from the file, makes no network requests, and touches no other file. It typically
-runs as a pre-commit hook, often on pre-commit.ci or in CI against content from pull requests.
+xml-fmt reads each XML file named on the command line or standard input, parses it with
+[defusedxml](https://github.com/tiran/defusedxml), and writes the formatted text back to the same path, to standard
+output, or reports a diff with `--check`. It runs no code from the file, makes no network requests, and touches no other
+file. It typically runs as a pre-commit hook, often on pre-commit.ci or in CI against content from pull requests.
 
-The [Python XML security notes](https://docs.python.org/3/library/xml.html#xml-vulnerabilities) describe this parser: it
-does not fetch external entities, and Expat 2.4.1 and later limit entity expansion (billion laughs). Running xml-fmt on
-a Python linked against an older Expat inherits that Expat's behavior.
+The [Python XML security notes](https://docs.python.org/3/library/xml.html#xml-vulnerabilities) explain why untrusted
+XML needs a guarded parser. `defusedxml` rejects entity declarations before the formatter can serialize their content.
 
 ```mermaid
 flowchart LR
@@ -36,7 +35,7 @@ the attacker controls.
 
 | Project                                                                                | Language     | Where it draws the line                                                                         |
 | -------------------------------------------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------- |
-| [Python `xml` package](https://docs.python.org/3/library/xml.html#xml-vulnerabilities) | Python       | Documents which XML attacks each stdlib parser resists; xml-fmt inherits ElementTree's row.     |
+| [Python `xml` package](https://docs.python.org/3/library/xml.html#xml-vulnerabilities) | Python       | Documents the attacks xml-fmt blocks with a guarded ElementTree parser.                         |
 | [lxml](https://github.com/lxml/lxml/security/policy)                                   | Python and C | C-backed XML parser on untrusted input; private reports and a 90-day window.                    |
 | [dprint](https://github.com/dprint/dprint/security/policy)                             | Rust         | Formatter platform; patches only the latest release and takes reports privately.                |
 | [Prettier](https://github.com/prettier/prettier/security/policy)                       | JavaScript   | Formats untrusted source; reports go through Tidelift, and the policy defines no further scope. |
@@ -56,11 +55,11 @@ An attacker who controls any of these already has what xml-fmt could give them:
 
 ## Threats and controls
 
-| STRIDE                 | Threat                                                      | Control                                                                                  |
-| ---------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Tampering              | A crafted file makes the formatter write somewhere else.    | The output path is the input path; content never selects a path.                         |
-| Information disclosure | Formatting pulls in another file's content.                 | The standard library's `xml.etree.ElementTree` on Expat resolves no external references. |
-| Denial of service      | A short input triggers exponential parsing or a hang in CI. | Treated as a vulnerability when the input is small; report it.                           |
+| STRIDE                 | Threat                                                      | Control                                                             |
+| ---------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------- |
+| Tampering              | A crafted file makes the formatter write somewhere else.    | The output path is the input path; content never selects a path.    |
+| Information disclosure | Formatting pulls in another file's content.                 | The parser rejects entity declarations and external references.     |
+| Denial of service      | A short input triggers exponential parsing or a hang in CI. | Entity declarations are rejected; report other small-input blowups. |
 
 ## Release chain
 
@@ -72,12 +71,11 @@ Every workflow pins third-party actions to a commit SHA.
 
 ## Vulnerability or bug
 
-| Report                                                             | Verdict       | Why                                            |
-| ------------------------------------------------------------------ | ------------- | ---------------------------------------------- |
-| A DOCTYPE with an external entity makes xml-fmt read `/etc/passwd` | Vulnerability | External resolution must not happen.           |
-| A billion-laughs file exhausts memory on current Python            | Vulnerability | Small-input blowup.                            |
-| The same file exhausts memory only with Expat older than 2.4.1     | Not ours      | Report it to the platform shipping that Expat. |
-| Formatting drops a processing instruction                          | Bug           | Changes content; fix it in the open.           |
+| Report                                                             | Verdict       | Why                                   |
+| ------------------------------------------------------------------ | ------------- | ------------------------------------- |
+| A DOCTYPE with an external entity makes xml-fmt read `/etc/passwd` | Vulnerability | External resolution must not happen.  |
+| A billion-laughs file exhausts memory                              | Vulnerability | Entity declarations must be rejected. |
+| Formatting drops a processing instruction                          | Bug           | Changes content; fix it in the open.  |
 
 ## Severity
 
@@ -89,7 +87,7 @@ Every workflow pins third-party actions to a commit SHA.
 
 - Rewriting a file follows a symlink at the named path.
 - Formatting is not a safety review: valid but malicious content is reformatted, not removed.
-- Entity-expansion limits come from the Expat that Python links against.
+- A large file can still use significant memory during parsing and formatting.
 
 ## Keeping this current
 

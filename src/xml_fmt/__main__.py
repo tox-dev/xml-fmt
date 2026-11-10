@@ -9,7 +9,9 @@ from difflib import unified_diff
 from importlib.metadata import version
 from pathlib import Path
 from typing import TYPE_CHECKING, cast
-from xml.etree.ElementTree import XML, indent, tostring  # ruff:ignore[suspicious-xml-etree-import] input is the user's own XML file, not untrusted data
+from xml.etree.ElementTree import indent  # ruff:ignore[suspicious-xml-etree-import] only formats a tree parsed by defusedxml
+
+from defusedxml.ElementTree import fromstring, tostring
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
@@ -112,14 +114,14 @@ def _handle_one(filename: Path | None, opts: _Options) -> bool:
         name = str(filename)
     if changed:
         diff = unified_diff(before.splitlines(), formatted.splitlines(), fromfile=name, tofile=name)
-        print("\n".join(_color_diff(diff)))  # print diff on change  # ruff:ignore[print] the diff is the command output
+        print("\n".join(_color_diff(diff)))  # ruff:ignore[print] the diff is the command output
     else:
         print(f"no change for {name}")  # ruff:ignore[print] the status is the command output
     return changed
 
 
 def _format(raw: str, opts: _Options) -> str:
-    element = XML(raw)
+    element = fromstring(raw)
     indent(element, opts.indent)
     return tostring(
         element,
