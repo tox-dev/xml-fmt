@@ -37,6 +37,7 @@ dynamic = [
   "readme",
   "version",
 ]
+dependencies = [ "defusedxml>=0.7.1" ]
 urls."Bug Tracker" = "https://github.com/tox-dev/xml-fmt/issues"
 urls."Source Code" = "https://github.com/tox-dev/xml-fmt"
 urls.Changelog = "https://github.com/tox-dev/xml-fmt/blob/main/CHANGELOG.md"
