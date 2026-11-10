@@ -41,7 +41,7 @@ repos:
         priority: 3
         args: ["--fix", "--unsafe-fixes", "--exit-non-zero-on-fix"]
   - repo: https://github.com/gaborbernat/simplint-pre-commit
-    rev: "9043c1e4caa5d9a7f2d3f95bb11058873e1f4a3b" # frozen: v0.10.0
+    rev: "94a5e507a80823f52964f4a1d6990c134c0f7125" # frozen: v0.10.1
     hooks:
       - id: simplint
         priority: 4
