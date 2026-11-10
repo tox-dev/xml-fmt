@@ -174,7 +174,6 @@ ini_options.testpaths = [
 ]
 ini_options.filterwarnings = [
   "error",
-  "ignore:unclosed database:ResourceWarning",
 ]
 ini_options.verbosity_assertions = 2
 
