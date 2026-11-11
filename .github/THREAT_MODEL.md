@@ -55,11 +55,11 @@ An attacker who controls any of these already has what xml-fmt could give them:
 
 ## Threats and controls
 
-| STRIDE                 | Threat                                                      | Control                                                             |
-| ---------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------- |
-| Tampering              | A crafted file makes the formatter write somewhere else.    | The output path is the input path; content never selects a path.    |
-| Information disclosure | Formatting pulls in another file's content.                 | The parser rejects entity declarations and external references.     |
-| Denial of service      | A short input triggers exponential parsing or a hang in CI. | Entity declarations are rejected; report other small-input blowups. |
+| STRIDE                 | Threat                                                      | Control                                                                  |
+| ---------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Tampering              | A crafted file makes the formatter write somewhere else.    | The output path is the input path; content never selects a path.         |
+| Information disclosure | Formatting pulls in another file's content.                 | The parser rejects entity declarations and does not fetch external DTDs. |
+| Denial of service      | A short input triggers exponential parsing or a hang in CI. | Entity declarations are rejected; report other small-input blowups.      |
 
 ## Release chain
 
