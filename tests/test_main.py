@@ -1,18 +1,24 @@
 from __future__ import annotations
 
 import os
+from argparse import Namespace
 from io import StringIO
 from typing import TYPE_CHECKING
 
 import pytest
 from defusedxml.common import EntitiesForbidden
 
-from xml_fmt.__main__ import run
+from xml_fmt.__main__ import GREEN, RED, RESET, Options, run
 
 if TYPE_CHECKING:
     from pathlib import Path
 
     from pytest_mock import MockerFixture
+
+
+def test_legacy_module_exports() -> None:
+    assert isinstance(Options(), Namespace)
+    assert (GREEN, RED, RESET) == ("\u001b[32m", "\u001b[31m", "\u001b[0m")
 
 
 @pytest.fixture

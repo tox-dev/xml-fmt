@@ -17,7 +17,9 @@ if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
 
 
-class _Options(Namespace):
+class Options(Namespace):
+    """Options for xml-fmt."""  # simplint: ignore[function-docstring]  # public class predates lint adoption
+
     inputs: list[Path | None]
     stdout: bool
     check: bool
@@ -29,7 +31,7 @@ class _Options(Namespace):
 
 def run(args: Sequence[str] | None = None) -> int:
     parser = _build_cli()
-    opts = _Options()
+    opts = Options()
     parser.parse_args(args=args, namespace=opts)
     results = [_handle_one(filename, opts) for filename in opts.inputs]
     return 1 if any(results) else 0  # exit with non success on change
@@ -95,7 +97,7 @@ def _path_creator(argument: str) -> Path | None:
     return path
 
 
-def _handle_one(filename: Path | None, opts: _Options) -> bool:
+def _handle_one(filename: Path | None, opts: Options) -> bool:
     before: str = cast("str", sys.stdin.read()) if filename is None else filename.read_text(encoding="utf-8")
     formatted = _format(before, opts)
 
@@ -120,7 +122,7 @@ def _handle_one(filename: Path | None, opts: _Options) -> bool:
     return changed
 
 
-def _format(raw: str, opts: _Options) -> str:
+def _format(raw: str, opts: Options) -> str:
     element = fromstring(raw)
     indent(element, opts.indent)
     return tostring(
@@ -131,22 +133,19 @@ def _format(raw: str, opts: _Options) -> str:
     )
 
 
+GREEN = "\u001b[32m"  # simplint: ignore[missing-final, module-variable-prefix]  # preserve public name
+RED = "\u001b[31m"  # simplint: ignore[missing-final, module-variable-prefix]  # preserve public name
+RESET = "\u001b[0m"  # simplint: ignore[missing-final, module-variable-prefix]  # preserve public name
+
+
 def _color_diff(diff: Iterable[str]) -> Iterable[str]:
-    green: str = "\u001b[32m"
-    red: str = "\u001b[31m"
-    reset: str = "\u001b[0m"
     for line in diff:
         if line.startswith("+"):
-            yield f"{green}{line}{reset}"
+            yield f"{GREEN}{line}{RESET}"
         elif line.startswith("-"):
-            yield f"{red}{line}{reset}"
+            yield f"{RED}{line}{RESET}"
         else:
             yield line
-
-
-__all__ = [
-    "run",
-]
 
 
 if __name__ == "__main__":
