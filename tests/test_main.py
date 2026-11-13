@@ -81,10 +81,9 @@ def test_xml_stdin(capsys: pytest.CaptureFixture[str], mocker: MockerFixture, mi
 @pytest.mark.parametrize(
     "declaration",
     [
-        '<!ENTITY secret SYSTEM "file:///etc/passwd">',
-        '<!ENTITY secret "expanded">',
+        pytest.param('<!ENTITY secret SYSTEM "file:///etc/passwd">', id="external"),
+        pytest.param('<!ENTITY secret "expanded">', id="internal"),
     ],
-    ids=["external", "internal"],
 )
 def test_xml_rejects_entities(tmp_path: Path, declaration: str) -> None:
     xml = tmp_path / "name.xml"
