@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from importlib.metadata import version
 from io import StringIO
 from typing import TYPE_CHECKING
 
@@ -36,6 +37,14 @@ def test_xml_help(capsys: pytest.CaptureFixture[str]) -> None:
     out, err = capsys.readouterr()
     assert not err
     assert "XML (XSD)" in out
+
+
+@pytest.mark.parametrize("flag", [pytest.param("-V", id="short"), pytest.param("--version", id="long")])
+def test_xml_version(capsys: pytest.CaptureFixture[str], flag: str) -> None:
+    with pytest.raises(SystemExit) as exc:
+        run([flag])
+
+    assert (exc.value.code, *capsys.readouterr()) == (0, f"xml-fmt ({version('xml-fmt')})\n", "")
 
 
 def test_xml_format_no_print_diff(capsys: pytest.CaptureFixture[str], tmp_path: Path, min_xml_str: str) -> None:
