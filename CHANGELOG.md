@@ -2,6 +2,32 @@
 
 <!-- towncrier release notes start -->
 
+<a name="release-1-2-3"></a>
+
+## 1.2.3 (2026-11-18)
+
+<a name="release-1-2-3-documentation"></a>
+
+### Documentation
+
+- Clarify that external DTD references are not fetched, while entity declarations are rejected
+  ([#157](https://github.com/tox-dev/xml-fmt/pull/157)) by [@gaborbernat](https://github.com/gaborbernat).
+
+<a name="release-1-2-3-security"></a>
+
+### Security
+
+- Reject XML entity declarations before formatting untrusted files ([#155](https://github.com/tox-dev/xml-fmt/pull/155))
+  by [@gaborbernat](https://github.com/gaborbernat).
+
+<a name="release-1-2-3-packaging"></a>
+
+### Packaging
+
+- Every wheel now carries a [PEP 770](https://peps.python.org/pep-0770/) CycloneDX SBOM in its `.dist-info/sboms`
+  directory, written at build time by [python-sbom](https://github.com/tox-dev/python-sbom)
+  ([#152](https://github.com/tox-dev/xml-fmt/pull/152)) by [@gaborbernat](https://github.com/gaborbernat).
+
 <a name="release-1-2-2"></a>
 
 ## 1.2.2 (2026-11-04)
