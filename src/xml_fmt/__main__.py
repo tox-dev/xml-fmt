@@ -2,17 +2,23 @@
 
 from __future__ import annotations
 
+__lazy_modules__ = [
+    "defusedxml.ElementTree",
+    "difflib",
+    "pathlib",
+    "xml.etree.ElementTree",
+]
+
 import os
 import sys
-from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser, ArgumentTypeError, Namespace
+from argparse import Action, ArgumentDefaultsHelpFormatter, ArgumentParser, ArgumentTypeError, Namespace
 from difflib import unified_diff
-from importlib.metadata import version
 from pathlib import Path
-from typing import TYPE_CHECKING, cast
 from xml.etree.ElementTree import indent  # ruff:ignore[suspicious-xml-etree-import] only formats a tree parsed by defusedxml
 
 from defusedxml.ElementTree import fromstring, tostring
 
+TYPE_CHECKING = False
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
 
@@ -40,14 +46,29 @@ class _Formatter(ArgumentDefaultsHelpFormatter):
         super().__init__(prog, max_help_position=29, width=240)
 
 
+class _VersionAction(Action):
+    def __call__(  # ty: ignore[missing-override-decorator]  # Python 3.11 has no typing.override
+        self,
+        parser: ArgumentParser,
+        namespace: Namespace,
+        values: str | Sequence[str] | None,
+        option_string: str | None = None,
+    ) -> None:
+        del namespace, values, option_string
+        from importlib.metadata import version  # ruff:ignore[import-outside-top-level] only needed for --version
+
+        sys.stdout.write(f"{parser.prog} ({version('xml-fmt')})\n")
+        parser.exit()
+
+
 def _build_cli() -> ArgumentParser:
     parser = ArgumentParser(formatter_class=_Formatter, prog="xml-fmt")
     parser.add_argument(
         "-V",
         "--version",
-        action="version",
+        action=_VersionAction,
         help="version of the project",
-        version=f"%(prog)s ({version('xml-fmt')})",
+        nargs=0,
     )
 
     mode_group = parser.add_argument_group("run mode")
@@ -96,7 +117,7 @@ def _path_creator(argument: str) -> Path | None:
 
 
 def _handle_one(filename: Path | None, opts: _Options) -> bool:
-    before: str = cast("str", sys.stdin.read()) if filename is None else filename.read_text(encoding="utf-8")
+    before = str(sys.stdin.read()) if filename is None else filename.read_text(encoding="utf-8")
     formatted = _format(before, opts)
 
     changed = before != formatted
